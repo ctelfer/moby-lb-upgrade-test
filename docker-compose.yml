@@ -19,3 +19,4 @@ services:
 
 networks:
   overlay:
+    driver: overlay
