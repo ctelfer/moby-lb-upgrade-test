@@ -1,22 +1,25 @@
 version: "3.3"
 
 services:
-  myservice:
+  service:
     image: nginx
     networks:
-      - mynet-1 
+    - mynet
     deploy:
       mode: global
       endpoint_mode: vip
 
-  myclient:
+  client:
     image: lb-upgrade-test-cli
+    command: ["service"]
     networks:
-       - overlay
+    - mynet
+    depends_on:
+    - service
     deploy:
       mode: replicated
       replicas: 2
 
 networks:
-  overlay:
+  mynet:
     driver: overlay

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SERVER=myservice
+SERVER=service
 if [ $# -ge 1 ] ; then
 	SERVER=$1
 	shift
@@ -14,6 +14,8 @@ doexit() {
 }
 
 trap doexit TERM INT
+
+sleep 5
 
 while true ; do 
 	for i in 1 2 3 4 ; do 
