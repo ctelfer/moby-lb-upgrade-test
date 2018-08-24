@@ -2,12 +2,14 @@ Test Procedure for a Swarm Upgrade Without Service Interruption
 ======================
 
 Building and install images:
+
     # ON LOCAL MACHINE:
     #  * build images and docker-compose.yml file
     $ ./setup.sh MYNAME
 
 
 Start up testkit and promote 2 managers:
+
     # ON LOCAL MACHINE:
     #  * create a cluster with 5 macines: 3 managers and 2 workers
     $ testkit create 5 0 --parallel --engine ee-2.1 --name=tk1706 --debug
@@ -16,11 +18,13 @@ Start up testkit and promote 2 managers:
 
 
 Log into testkit:
+
     # ON LOCAL MACHINE:
     $ testkit machine ssh tk1706-ubuntu-0
 
 
 Clone repo for compose and start service:
+
     # ON LOCAL MACHINE:
     #  * start the test service to run during upgrade
     $ (eval "$(testkit machine env tk1706-ubuntu-0)" && 
@@ -28,6 +32,7 @@ Clone repo for compose and start service:
 
 
 Put a tarball of upgraded moby binaries on every node:
+
     # ON LOCAL MACHINE:
     #  * build the moby binaries
     #    (can get/upgrade this binary by some other means if desired;
@@ -49,6 +54,7 @@ Put a tarball of upgraded moby binaries on every node:
 
 
 Upgrading a manager:
+
     # ON ANY MANAGER:
     #  * drain containers from the manager
     $ docker node update --availability drain $(docker node ls | grep NODENAME | awk '{print $1}')
@@ -76,18 +82,21 @@ Upgrading a manager:
 
 One must upgrade *all* managers before re-activating them.  After upgrading them all,
 reactivate them to receive workloads:
+
     # ON ANY MANAGER:
     #  * do this for each of the manager node names
     $ docker node update --availability active $(docker node ls | grep NODENAME | awk '{print $1}')
 
 
 Upgrading the nodes:
+
     # Follow the same upgrade procedure as a manager as above.   But there
     # is no need to drain them *all* before restarting them.  One can make them
     # active as soon as they are upgraded.
 
 
 Check for connectivity failures:
+
     # on local machine:
     #   * verify that output is in /var/lib/docker/volumes/test_cliout/_data/client.log
     #     Look for: "Mountpoint": "/var/lib/docker/volumes/test_cliout/_data",
@@ -127,5 +136,3 @@ Error seen if activating a manager before all the managers are upgraded:
             },
     ...
     ]
-
-
