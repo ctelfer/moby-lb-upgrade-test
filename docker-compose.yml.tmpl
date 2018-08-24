@@ -10,12 +10,14 @@ services:
       endpoint_mode: vip
 
   client:
-    image: lb-upgrade-test-cli
+    image: MYNAME/lb-upgrade-test-cli:latest
     command: ["service"]
     networks:
     - mynet
     depends_on:
     - service
+    volumes:
+    - cliout:/output
     deploy:
       mode: replicated
       replicas: 2
@@ -23,3 +25,6 @@ services:
 networks:
   mynet:
     driver: overlay
+
+volumes:
+  cliout:

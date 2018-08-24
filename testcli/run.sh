@@ -17,6 +17,8 @@ trap doexit TERM INT
 
 sleep 5
 
+echo `date`: "Starting client service" >> /output/client.log
+
 while true ; do 
 	for i in 1 2 3 4 ; do 
 		curl -sS http://$SERVER > /dev/null 2>/tmp/j$i.out & 
@@ -26,8 +28,8 @@ while true ; do
 		nextjob=$(jobs -l | awk '{print $2}')
 		wait $nextjob
 		if [ $? -ne 0 ] ; then
-			echo "Connection failure:"
-			cat /tmp/j$i.out 
+			( echo `date`: "Connection failure:" &&
+			  cat /tmp/j$i.out ) >> /output/client.log
 			ERRS=1
 		fi
 	done
