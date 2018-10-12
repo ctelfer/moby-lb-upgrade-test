@@ -1,0 +1,40 @@
+version: "3.3"
+
+services:
+  service1:
+    image: nginx
+    networks:
+    - net1
+    - net3
+    deploy:
+      mode: replicated
+      replicas: 27
+      endpoint_mode: vip
+
+  service2:
+    image: nginx
+    networks:
+    - net2
+    - net3
+    deploy:
+      mode: replicated
+      replicas: 23
+      endpoint_mode: vip
+
+
+networks:
+  net1:
+    driver: overlay
+    ipam:
+      config:
+      - subnet: 10.1.1.0/27
+  net2:
+    driver: overlay
+    ipam:
+      config:
+      - subnet: 10.1.2.0/27
+  net3:
+    driver: overlay
+    ipam:
+      config:
+      - subnet: 10.1.3.0/26

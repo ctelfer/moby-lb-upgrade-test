@@ -226,7 +226,7 @@ The following signatures can be seen when a network which was near capacity
 exceeds capacity following the upgrade.   To trigger this condition one can
 do the following:
   * create the test cluster as described above
-  * in `exhaust/` run `
+  * in `exhaust_addrs/` run `
 
         $ (eval "$(testkit machine env tk1706-ubuntu-0)" && docker stack deploy -c docker-compose.yml ex)
 
