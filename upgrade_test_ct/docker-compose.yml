@@ -1,0 +1,30 @@
+version: "3.3"
+
+services:
+  service:
+    image: nginx
+    networks:
+    - mynet
+    deploy:
+      mode: global
+      endpoint_mode: vip
+
+  client:
+    image: ctelfer/lb-upgrade-test-cli:latest
+    command: ["service"]
+    networks:
+    - mynet
+    depends_on:
+    - service
+    volumes:
+    - cliout:/output
+    deploy:
+      mode: replicated
+      replicas: 2
+
+networks:
+  mynet:
+    driver: overlay
+
+volumes:
+  cliout:
